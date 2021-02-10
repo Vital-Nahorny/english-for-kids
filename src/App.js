@@ -32,15 +32,17 @@ export default class App {
 
   init() {
     this.menuItems = document.querySelectorAll('.burger__item');
+    this.subscribeEventListeners();
+    return this;
+  }
+
+  subscribeEventListeners() {
     menuBurger.addEventListener('click', this.openMenuItem);
     mainPage.addEventListener('click', this.openMenuCard);
     categoryPage.addEventListener('click', this.rotateCard);
     categoryPage.addEventListener('click', this.cardEventHandler);
     btnsContainer.addEventListener('click', this.btnEventHandler);
-    switcher.addEventListener('change', () => {
-      this.gameMode();
-    });
-    return this;
+    switcher.addEventListener('change', this.gameMode);
   }
 
   generateMainPage = () => {
@@ -129,7 +131,6 @@ export default class App {
   }
 
   sortRows(e) {
-    if (e.stopPropagation) e.stopPropagation();
     const currThCell = e.target.closest('th');
     const thCells = document.querySelectorAll('th');
     const tdIndex = currThCell.cellIndex;
@@ -177,7 +178,6 @@ export default class App {
   }
 
   openMenuCard = (e) => {
-    if (e.stopPropagation) e.stopPropagation();
     const cardMain = e.target.closest('.main-card');
     if (!cardMain) return;
     this.currentCategory = cardMain.firstElementChild.textContent;
@@ -187,7 +187,6 @@ export default class App {
   }
 
   openMenuItem = (e) => {
-    if (e.stopPropagation) e.stopPropagation();
     const burgerItem = e.target.closest('.burger__item');
     if (!burgerItem) return;
     this.currentCategory = burgerItem.textContent;
@@ -202,7 +201,6 @@ export default class App {
   }
 
   rotateCard = (e) => {
-    if (e.stopPropagation) e.stopPropagation();
     const buttonCard = e.target.closest('.btn-rotate');
     if (!buttonCard) return;
     const card = e.target.closest('.card');
@@ -216,7 +214,6 @@ export default class App {
   }
 
   cardEventHandler = (e) => {
-    if (e.stopPropagation) e.stopPropagation();
     if (e.target.classList.value !== 'front') return;
     const frontCard = e.target;
     const word = frontCard.firstElementChild.textContent;
@@ -265,7 +262,7 @@ export default class App {
     localStorage.statistic = JSON.stringify(this.statisticArr);
   }
 
-  gameMode() {
+  gameMode = () => {
     this.isPlay = !this.isPlay;
     if (this.categoryCards.length > 0) {
       this.categoryCards.forEach((card) => {
@@ -319,7 +316,6 @@ export default class App {
   }
 
   btnEventHandler = (e) => {
-    if (e.stopPropagation) e.stopPropagation();
     if (e.target.classList.value === 'btn-start') {
       this.gameStart();
     } if (e.target.classList.value === 'btn-repeat') {
